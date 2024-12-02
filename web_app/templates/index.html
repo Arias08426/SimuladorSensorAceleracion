@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Metadatos básicos de la página -->
+    <meta charset="UTF-8"> <!-- Codificación de caracteres UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Hacer que la página sea responsiva -->
+    <title>Sensor de Aceleración</title> <!-- Título de la página -->
+
+    <!-- Estilos de Bootstrap para un diseño moderno y responsivo -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <!-- Fuentes de Google para mejorar la estética del texto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Íconos FontAwesome para elementos visuales -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <!-- Estilos CSS personalizados -->
+    <style>
+        /* Estilo general del cuerpo */
+        body {
+            font-family: 'Roboto', sans-serif; /* Fuente moderna */
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298); /* Fondo con gradiente */
+            color: #f8f9fa; /* Texto blanco */
+        }
+
+        /* Encabezado de la página */
+        .header {
+            display: flex; /* Diseño flexible para alineación */
+            justify-content: space-between; /* Separar elementos del encabezado */
+            align-items: center; /* Centrar elementos verticalmente */
+            padding: 20px; /* Espaciado interno */
+            background-color: #1c1f26; /* Color oscuro */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra para darle profundidad */
+        }
+
+        /* Estilo para el título dentro del encabezado */
+        .header h1 {
+            margin: 0; /* Sin margen para ajustar bien el espacio */
+            font-size: 24px;
+            font-family: 'Playfair Display', serif; /* Fuente decorativa */
+            color: #f8f9fa; /* Color blanco */
+        }
+
+        /* Contenedor de los filtros */
+        .filter-container {
+            text-align: center; /* Centra los elementos */
+            padding: 20px; /* Espaciado interno */
+            background-color: #2b3a48; /* Color de fondo oscuro */
+            font-family: 'Poppins', sans-serif; /* Fuente elegante */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra para separar del fondo */
+        }
+
+        /* Estilo para las etiquetas de los filtros */
+        .filter-container label {
+            margin-right: 10px; /* Espacio a la derecha de las etiquetas */
+        }
+
+        /* Estilo para los campos de entrada y selección */
+        input, select {
+            margin: 0 5px; /* Espacio horizontal entre campos */
+            padding: 5px; /* Espaciado interno */
+            border-radius: 5px; /* Bordes redondeados */
+            border: 1px solid #ccc; /* Borde gris claro */
+        }
+
+        /* Estilo general para los botones */
+        button {
+            margin: 10px 5px; /* Espaciado entre botones */
+            padding: 10px 20px; /* Espaciado interno */
+            border-radius: 5px; /* Bordes redondeados */
+            border: none; /* Sin bordes */
+            cursor: pointer; /* Cambia el cursor al pasar el mouse */
+            transition: 0.3s; /* Transición suave para efectos */
+        }
+
+        /* Botón principal con color azul */
+        .btn-primary {
+            background-color: #007bff; /* Azul brillante */
+            color: #f8f9fa; /* Texto blanco */
+        }
+
+        /* Efecto hover para el botón principal */
+        .btn-primary:hover {
+            background-color: #0056b3; /* Azul más oscuro */
+        }
+
+        /* Botón secundario con color gris */
+        .btn-secondary {
+            background-color: #6c757d; /* Gris */
+            color: #f8f9fa; /* Texto blanco */
+        }
+
+        /* Estilo para la tabla de datos */
+        table {
+            width: 90%; /* Ancho del 90% de la pantalla */
+            margin: 20px auto; /* Centrar horizontalmente */
+            background: #fff; /* Fondo blanco */
+            border-collapse: collapse; /* Quitar espacios entre celdas */
+            border-radius: 10px; /* Bordes redondeados */
+            overflow: hidden; /* Asegura bordes limpios */
+            font-family: 'Poppins', sans-serif; /* Fuente elegante */
+        }
+
+        /* Estilo para encabezados de la tabla */
+        th {
+            padding: 15px; /* Espaciado interno */
+            text-align: center; /* Centrado */
+            border: 1px solid #dee2e6; /* Bordes gris claro */
+            background-color: #1c1f26; /* Fondo oscuro */
+            color: #f8f9fa; /* Texto blanco */
+        }
+
+        /* Estilo para las celdas de datos */
+        td {
+            padding: 15px; /* Espaciado interno */
+            text-align: center; /* Centrado */
+            border: 1px solid #dee2e6; /* Bordes gris claro */
+            color: #343a40; /* Texto gris oscuro */
+        }
+
+        /* Contenedor del gráfico */
+        #chart-container {
+            max-width: 1200px; /* Máximo ancho del gráfico */
+            margin: 30px auto; /* Centrado horizontalmente */
+            padding: 20px; /* Espaciado interno */
+            background-color: #1c1f26; /* Fondo oscuro */
+            border-radius: 10px; /* Bordes redondeados */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra para resaltar */
+        }
+
+        /* Fuente del gráfico */
+        #sensor-chart {
+            font-family: 'Roboto', sans-serif; /* Fuente legible para texto */
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <!-- Título del encabezado -->
+    <div class="d-flex align-items-center">
+        <h1>Sensor de Aceleración</h1> <!-- Texto principal del encabezado -->
+    </div>
+</div>
+
+
+<!-- Filtros -->
+<div class="filter-container">
+    <!-- Filtro para el ID del Sensor -->
+    <label for="filter-id">ID del Sensor:</label>
+    <select id="filter-id" class="form-select">
+        <!-- Opción predeterminada para el ID del Sensor -->
+        <option value="JCAO4275">JCAO4275</option>
+    </select>
+
+    <!-- Filtro para la Fecha -->
+    <label for="filter-date">Fecha:</label>
+    <input type="date" id="filter-date">
+
+    <!-- Filtro para la Hora -->
+    <label for="filter-time">Hora:</label>
+    <input type="time" id="filter-time">
+
+    <!-- Botón para aplicar los filtros -->
+    <button class="btn btn-primary" onclick="applyFilters()">Aplicar Filtros</button>
+    <!-- Botón para reiniciar los filtros -->
+    <button class="btn btn-secondary" onclick="resetFilters()">Reiniciar Filtros</button>
+</div>
+
+<!-- Tabla de Datos -->
+<table id="data-table">
+    <thead>
+    <tr>
+        <!-- Cabeceras de las columnas de la tabla -->
+        <th>ID</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>ID del Sensor</th>
+        <th>Valor Aceleración</th>
+    </tr>
+    </thead>
+    <tbody></tbody> <!-- El cuerpo de la tabla donde se llenarán los datos -->
+</table>
+
+<!-- Contenedor del Gráfico -->
+<div id="chart-container">
+    <canvas id="sensor-chart"></canvas> <!-- Canvas donde se renderizará el gráfico -->
+</div>
+
+<!-- Importación de la librería Chart.js para el gráfico -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    let originalData = []; // Variable para almacenar los datos originales
+    const MAX_VISIBLE_ROWS = 5; // Número máximo de filas visibles en la tabla
+    const MAX_POINTS = 10; // Número máximo de puntos a mostrar en el gráfico
+    let chartInstance; // Variable que almacenará la instancia del gráfico
+
+    // Función asincrónica para cargar los datos desde el servidor
+    async function loadData() {
+        try {
+            // Realiza una petición GET para obtener los datos del sensor
+            const response = await fetch('http://localhost:5000/api/sensor_data');
+            const data = await response.json(); // Convierte la respuesta a formato JSON
+            originalData = data.data || []; // Si no hay datos, asigna un arreglo vacío
+            renderTable(originalData); // Renderiza la tabla con los datos obtenidos
+            initializeChart(); // Inicializa el gráfico
+            updateChart(originalData.slice(-MAX_POINTS)); // Muestra los últimos puntos en el gráfico
+        } catch (error) {
+            console.error("Error al cargar los datos: ", error); // Manejo de errores
+        }
+    }
+
+    // Función para renderizar la tabla con los datos
+    function renderTable(data) {
+        const tableBody = document.querySelector("#data-table tbody"); // Obtiene el cuerpo de la tabla
+        tableBody.innerHTML = ""; // Limpiar el cuerpo de la tabla antes de agregar nuevos datos
+
+        const visibleData = data.slice(-MAX_VISIBLE_ROWS); // Solo toma las últimas filas
+        visibleData.forEach(item => appendRow(item, tableBody)); // Llama a la función para agregar cada fila
+    }
+
+    // Función para agregar una fila a la tabla
+    function appendRow(item, tableBody) {
+        const row = document.createElement("tr"); // Crea una nueva fila
+        row.innerHTML = `
+            <td>${item.id}</td> <!-- Columna ID -->
+            <td>${item.fecha}</td> <!-- Columna Fecha -->
+            <td>${item.hora}</td> <!-- Columna Hora -->
+            <td>${item.idsensor}</td> <!-- Columna ID del Sensor -->
+            <td>${item.valor}</td> <!-- Columna Valor de Aceleración -->
+        `;
+        tableBody.appendChild(row); // Agrega la fila al cuerpo de la tabla
+    }
+
+    // Función para inicializar el gráfico con Chart.js
+    function initializeChart() {
+        const ctx = document.getElementById('sensor-chart').getContext('2d'); // Obtiene el contexto del canvas
+        chartInstance = new Chart(ctx, {
+            type: 'line', // Tipo de gráfico (línea)
+            data: {
+                labels: [], // Inicializa las etiquetas (eje X) vacías
+                datasets: [{
+                    label: 'Valores del Sensor', // Etiqueta del conjunto de datos
+                    data: [], // Datos vacíos iniciales
+                    borderColor: 'rgba(75, 192, 192, 1)', // Color del borde de la línea
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color de fondo de los puntos de datos
+                    borderWidth: 2, // Ancho del borde de la línea
+                    pointRadius: 4, // Radio de los puntos
+                    pointHoverRadius: 6, // Radio de los puntos cuando se pasa el mouse
+                    tension: 0.4 // Curvatura de la línea
+                }]
+            },
+            options: {
+                responsive: true, // Hace que el gráfico sea responsivo
+                plugins: {
+                    legend: { display: true } // Muestra la leyenda del gráfico
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Tiempo (segundos)' } }, // Título del eje X
+                    y: { title: { display: true, text: 'Aceleración (Metros/segundos)' } } // Título del eje Y
+                }
+            }
+        });
+    }
+
+    // Función para actualizar el gráfico con nuevos datos
+    function updateChart(data) {
+        const labels = data.map(item => `${item.fecha} ${item.hora}`); // Genera las etiquetas del eje X (Fecha y Hora)
+        const values = data.map(item => item.valor); // Obtiene los valores de aceleración para el eje Y
+
+        chartInstance.data.labels = labels; // Asigna las etiquetas al gráfico
+        chartInstance.data.datasets[0].data = values; // Asigna los valores al gráfico
+        chartInstance.update(); // Actualiza el gráfico con los nuevos datos
+    }
+
+    // Función para aplicar los filtros de la tabla
+    function applyFilters() {
+        const idFilter = document.getElementById('filter-id').value.toLowerCase(); // Filtro por ID del sensor
+        const dateFilter = document.getElementById('filter-date').value; // Filtro por Fecha
+        const timeFilter = document.getElementById('filter-time').value; // Filtro por Hora
+
+        const rows = document.querySelectorAll('#data-table tbody tr'); // Obtiene todas las filas de la tabla
+        rows.forEach(row => {
+            const [id, date, time, sensorId] = row.children; // Obtiene las celdas de cada fila
+
+            // Compara los valores de las celdas con los filtros aplicados
+            const matchesId = !idFilter || sensorId.textContent.toLowerCase().includes(idFilter);
+            const matchesDate = !dateFilter || date.textContent === dateFilter;
+            const matchesTime = !timeFilter || time.textContent.startsWith(timeFilter);
+
+            // Muestra o oculta la fila dependiendo de si coincide con los filtros
+            if (matchesId && matchesDate && matchesTime) {
+                row.style.display = ''; // Muestra la fila
+            } else {
+                row.style.display = 'none'; // Oculta la fila
+            }
+        });
+    }
+
+    // Función para reiniciar los filtros y mostrar todas las filas
+    function resetFilters() {
+        // Limpia los valores de los filtros
+        document.getElementById('filter-id').value = '';
+        document.getElementById('filter-date').value = '';
+        document.getElementById('filter-time').value = '';
+        applyFilters(); // Aplica los filtros para mostrar todas las filas
+    }
+
+    // Función para obtener datos nuevos del servidor y actualizar la tabla y el gráfico
+    async function fetchNewData() {
+        try {
+            // Realiza una petición GET para obtener los datos del sensor
+            const response = await fetch('http://localhost:5000/api/sensor_data');
+            const data = await response.json();
+            originalData = data.data || []; // Actualiza los datos
+            const latestData = originalData.slice(-MAX_POINTS); // Solo toma los últimos puntos
+            renderTable(originalData); // Actualiza la tabla con los nuevos datos
+            updateChart(latestData); // Actualiza el gráfico con los nuevos datos
+        } catch (error) {
+            console.error("Error al obtener datos en tiempo real: ", error); // Manejo de errores
+        }
+    }
+
+    // Al cargar la página, se ejecutan las funciones de carga inicial de datos y actualización cada 5 segundos
+    window.onload = () => {
+        loadData(); // Carga los datos iniciales
+        setInterval(fetchNewData, 5000); // Actualiza los datos cada 5 segundos
+    };
+</script>
+</body>
+</html>
