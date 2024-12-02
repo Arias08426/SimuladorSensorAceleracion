@@ -6,6 +6,10 @@ from datetime import datetime  # Para trabajar con fechas y horas
 from firebase_admin.exceptions import FirebaseError  # Manejar errores específicos de Firebase
 from flask_cors import CORS  # Habilitar CORS para permitir solicitudes desde diferentes orígenes
 
+# Version: 1.0
+# Since: 2024-11-28
+# Author: Juan Camilo Arias Ospina
+
 # Inicializar Firebase
 path = 'project_credentials.json'  # Ruta al archivo de credenciales de Firebase
 url = "https://sensores-3ba4f-default-rtdb.firebaseio.com/"  # URL de la base de datos en tiempo real de Firebase

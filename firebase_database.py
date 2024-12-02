@@ -1,4 +1,8 @@
 # Importar las librerías necesarias de Firebase Admin SDK
+# Version: 1.0
+# Since: 2024-11-28
+# Author: Juan Camilo Arias Ospina
+
 import firebase_admin  # Librería principal para interactuar con Firebase
 from firebase_admin import credentials, db  # Módulos específicos para autenticación y base de datos
 

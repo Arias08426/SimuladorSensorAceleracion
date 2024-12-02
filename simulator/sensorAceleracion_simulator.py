@@ -1,4 +1,9 @@
 # Importa las librerías necesarias
+
+# Version: 1.0
+# Since: 2024-11-28
+# Author: Juan Camilo Arias Ospina
+
 import requests  # Para realizar solicitudes HTTP
 import random  # Para generar valores aleatorios
 import time  # Para gestionar el tiempo en la simulación
